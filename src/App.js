@@ -6,7 +6,7 @@ const Libro = () => {
   const usuarios = []
   let params = useParams();
   const getUser = () => {
-    fetch('http://localhost:8080/api/'+params.ISBN)
+    fetch('../api/ISBN/'+params.ISBN)
       .then(response => response.json())
       .then(user => {usuarios.push(user);setUser(usuarios);})
       .catch(err => console.log(err.message))
@@ -18,14 +18,14 @@ const Libro = () => {
       return (  
       <section>
           {user.map(max =>
-          <>
+          <div key={max.ISBN}>
           <h1>Libro</h1>
           <p>Titulo: {max.Titulo}</p> 
           <p>Autor: {max.Autor}</p>
           <p>Pais: {max.Pais}</p>
           <p>Editorial: {max.Editorial}</p>
           <p><Link to="/">Regresar a la home</Link></p>
-          </>
+          </div>
         )} 
       </section>
     
@@ -37,7 +37,7 @@ const Libros = () => {
     const [users, setUsers] = useState( [])
   
     function getUsers() {
-      fetch('http://localhost:8080/api')
+      fetch('../api/')
         .then(response => response.json())
         .then(users => setUsers(users))
         .catch(err => console.log(err.message))
@@ -51,7 +51,7 @@ const Libros = () => {
 
     return (  
         <ul>
-          {users.map(user => <li key={user.ISBN}><Link to={"/book/"+user.ISBN}>{user.Titulo} ({user.Autor})</Link></li>)}        
+          {users.map(user => <li key={user.ISBN}><Link to={"/books/"+user.ISBN}>{user.Titulo} ({user.Autor})</Link></li>)}        
         </ul>
       
     )
@@ -64,7 +64,7 @@ const Libros = () => {
           </header>
           <Switch>
             <Route exact path="/"><Libros/></Route>
-            <Route exact path="/book/:ISBN"><Libro/></Route>
+            <Route exact path="/books/:ISBN"><Libro/></Route>
           </Switch>        
         </div>
       );
